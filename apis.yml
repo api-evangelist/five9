@@ -1,0 +1,82 @@
+aid: five9
+name: Five9
+description: >-
+  Five9 is a leading cloud contact center (CCaaS) platform providing inbound,
+  outbound, blended, and omnichannel customer engagement with intelligent
+  virtual agents, workforce optimization, agent assist, and analytics. Five9
+  exposes multiple developer APIs including REST APIs for configuration and
+  reporting, SOAP-based Configuration and Statistics Web Services, the Agent
+  and Supervisor REST APIs (app.five9.com/appsvcs), and Voicestream/event
+  APIs, with authentication via session login and API user credentials.
+type: Index
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+tags:
+  - Contact Center
+  - CCaaS
+  - Cloud Telephony
+  - Customer Engagement
+  - Omnichannel
+  - Workforce Optimization
+  - Virtual Agents
+url: >-
+  https://raw.githubusercontent.com/api-evangelist/five9/refs/heads/main/apis.yml
+created: '2026-05-11'
+modified: '2026-05-11'
+specificationVersion: '0.19'
+apis:
+  - aid: five9:agent-supervisor-rest-api
+    name: Five9 Agent and Supervisor REST API
+    description: >-
+      REST API used by agent and supervisor applications to log in, manage
+      state, handle interactions, and access supervisor monitoring features
+      on the Five9 cloud contact center platform. Authenticated via session
+      login at /appsvcs/rs/svc/auth/login with API-enabled user credentials.
+    humanURL: https://www.five9.com/development
+    baseURL: https://app.five9.com/appsvcs/rs/svc
+    tags:
+      - Contact Center
+      - Agents
+      - Supervisors
+      - Interactions
+    properties:
+      - type: Documentation
+        url: https://documentation.five9.com
+      - type: Developer Portal
+        url: https://www.five9.com/development
+      - type: Enabling REST API Access
+        url: https://documentation.five9.com/bundle/basic-admin/page/basic-admin/domain-settings/enabling-access-to-the-rest-api.htm
+  - aid: five9:configuration-web-services
+    name: Five9 Configuration Web Services
+    description: >-
+      SOAP-based Web Services API for configuring and administering the Five9
+      contact center, including campaigns, skills, users, dispositions, lists,
+      and dialer settings.
+    humanURL: https://documentation.five9.com/bundle/technical-reqs/page/technical-reqs/agent-integrations/cloud-API-web-services.htm
+    baseURL: https://api.five9.com/wsadmin
+    tags:
+      - Contact Center
+      - Administration
+      - Configuration
+      - SOAP
+    properties:
+      - type: Documentation
+        url: https://documentation.five9.com/bundle/technical-reqs/page/technical-reqs/agent-integrations/cloud-API-web-services.htm
+
+common:
+  - type: Website
+    url: https://www.five9.com
+  - type: Documentation
+    url: https://documentation.five9.com
+  - type: Developer Portal
+    url: https://www.five9.com/development
+  - type: Pricing
+    url: https://www.five9.com/products/pricing
+  - type: Sign Up
+    url: https://www.five9.com/products/free-trial
+  - type: GitHub
+    url: https://github.com/Five9DeveloperProgram
+  - type: Support
+    url: https://www.five9.com/support
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
