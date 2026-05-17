@@ -71,7 +71,7 @@ common:
     url: https://www.five9.com/development
   - type: Pricing
     url: https://www.five9.com/products/pricing
-  - type: Sign Up
+  - type: SignUp
     url: https://www.five9.com/products/free-trial
   - type: GitHub
     url: https://github.com/Five9DeveloperProgram
