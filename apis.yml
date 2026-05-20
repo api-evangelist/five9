@@ -63,6 +63,8 @@ apis:
         url: https://documentation.five9.com/bundle/technical-reqs/page/technical-reqs/agent-integrations/cloud-API-web-services.htm
 
 common:
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/five9
   - type: Website
     url: https://www.five9.com
   - type: Documentation
