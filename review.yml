@@ -1,0 +1,166 @@
+aid: five9
+reviewed: '2026-05-30'
+reviewer: API Evangelist
+scope: Public webhook / event subscription surface assessment
+summary: >-
+  Five9 exposes a documented public webhook surface centered on the
+  Events Subscription Service (ESS), with a complementary VoiceStream
+  capability for real-time audio and CTI events, and an emerging
+  alpha-stage Events Subscription REST API for programmatic
+  subscription management. ESS is the canonical webhook mechanism: it
+  delivers interaction-lifecycle events (e.g. call created, agent
+  ended, disposition set) to an HTTPS POST destination configured per
+  Five9 domain, with retry logic, custom headers, and field filtering
+  on attached variables. Subscriptions are presently created in the
+  Five9 Admin Console; an alpha Events Subscription API at
+  developer.alpha.us.five9.net exposes
+  /v1/domains/{domainId}/events/subscriptions for programmatic
+  management. VoiceStream is primarily a SIP/gRPC audio streaming
+  surface (max ten subscriptions per domain) but is paired with
+  webhook CTI events (Hold, Transfer, Consult, Conference) used by
+  partner adapters. None of the public, unauthenticated documentation
+  pages expose downloadable OpenAPI or AsyncAPI artifacts for the
+  webhook surface, and the schema bundle at
+  documentation.five9.com/bundle/events-schema is gated behind a
+  JS-rendered portal that is not directly indexable.
+webhooks:
+  hasPublicWebhookSurface: true
+  documentedInProduct: true
+  programmaticManagementAvailable: alpha
+  asyncApiModelable: partial
+  reason: >-
+    Five9 publicly documents ESS as a webhook destination service with
+    enumerated event categories, retry semantics, and admin-console
+    configuration. A first-party Events Subscription REST API exists
+    at developer.alpha.us.five9.net but is labeled alpha and its
+    reference pages are JS-rendered, so endpoint payload schemas
+    cannot be reliably captured without authenticated portal access.
+    A faithful AsyncAPI document would require either authenticated
+    access to the events schema bundle or a sample real-world
+    payload; neither is available from the public surface alone.
+surfaces:
+  - name: Events Subscription Service (ESS)
+    transport: HTTPS POST (webhook); optional file destinations (S3, FTP/SFTP, Google Cloud Storage)
+    public: true
+    configuredVia: Admin Console
+    eventCategoriesDocumented:
+      - Interaction lifecycle (e.g. call created, agent ended, disposition set)
+    features:
+      - Field filtering on attached variables
+      - Custom HTTP headers (used for subscriber-side authentication)
+      - Retry logic on valid HTTP response codes (three retries beyond the original attempt)
+    limitations:
+      - Does not cover real-time agent state changes
+      - Does not cover queue statistics
+      - Does not cover campaign-level events
+    asyncApiBindingAvailable: false
+    references:
+      - https://documentation.five9.com/bundle/admin-console/page/admin-console/event-subscription/_ch-event-subscription.htm
+      - https://documentation.five9.com/bundle/admin-console/page/admin-console/event-subscription/creating-subscription.htm
+      - https://documentation.five9.com/bundle/admin-console/page/admin-console/event-subscription/ess-application-access.htm
+      - https://documentation.five9.com/bundle/admin-console/page/admin-console/event-subscription/retry-logic.htm
+      - https://documentation.five9.com/bundle/events-schema/page/html/index.html
+  - name: Events Subscription API (alpha)
+    transport: HTTPS REST
+    public: true
+    stability: alpha
+    baseURLPattern: https://developer.alpha.us.five9.net/...
+    documentedRoute: POST /v1/domains/{domainId}/events/subscriptions
+    authentication: OAuth 2.0 (alpha developer portal also documents /oauth2/v1/token)
+    notes: >-
+      Five9 has published an alpha-stage developer portal exposing a
+      REST surface for programmatic management of event subscriptions.
+      The route pattern follows the v1/domains/{domainId}/... shape
+      used by the broader alpha portal (User API, Real Time Statistics
+      API, OAuth 2.0 Authorization Codes API). Treat as
+      forward-looking; not GA at the time of this review.
+    references:
+      - https://developer.alpha.us.five9.net/docs/events-subscription-developer-portal-alpha/1/routes/events-subscription/v1/domains/%7BdomainId%7D/events/subscriptions/post
+      - https://developer.alpha.us.five9.net/docs/oauth2-developer-portal-alpha/1/routes/oauth2/v1/token/post
+      - https://developer.alpha.us.five9.net/docs/statistics-developer-portal-alpha/1/routes/statistics/v1/domains/%7BdomainId%7D/statistics/get
+      - https://developer.alpha.us.five9.net/docs/users-developer-portal-alpha/1/overview
+  - name: VoiceStream (webhook CTI events + audio streaming)
+    transport: SIP / gRPC for audio; HTTPS POST for CTI call events
+    public: true
+    configuredVia: Admin Console (VoiceStream tile); partner-mode via VoiceStream Directives API
+    eventCategoriesDocumented:
+      - Call Hold
+      - Call Transfer
+      - Call Consult
+      - Call Conference
+      - Customer survey completion (per partner adapter documentation)
+      - Customer disconnect / agent disconnect (per partner adapter documentation)
+    limits:
+      - Maximum ten VoiceStream subscriptions per domain
+      - Primary and secondary streaming destinations are supported
+    asyncApiBindingAvailable: false
+    notes: >-
+      VoiceStream is principally a real-time audio pipe to external
+      AI/analytics systems (Cresta, CallMiner, Cogito/Verint, Uniphore,
+      and other accredited partners). It is paired with webhook
+      delivery of CTI call events, which is how partner adapters
+      (e.g. the Verint EDM Five9 VoiceStream Webhook Adapter) observe
+      hold/transfer/consult/conference state.
+    references:
+      - https://documentation.five9.com/bundle/voicestream-admin/page/voicestream-admin-guide/landing-voicestream-admin-guide.htm
+      - https://documentation.five9.com/bundle/voicestream-admin/page/voicestream-admin-guide/self-service/creating-ss-subscriptions.htm
+      - https://documentation-be.five9.com/bundle/voicestream-administrators-guide/raw/resource/enus/voicestream-administrators-guide.pdf
+      - https://wfo.f2.verintcloudservices.com/OnlineHelp_en/emt/adapters/intg_Five9_WebHook_Adapter.htm
+  - name: Agent WebSocket (real-time agent events)
+    transport: WebSocket
+    public: true
+    notes: >-
+      Five9 documents a community-supported pattern for consuming
+      real-time agent events via WebSocket from app.five9.com. This is
+      a client-pull streaming surface for agent applications rather
+      than a server-push webhook to a customer-owned URL, and is
+      called out here only to disambiguate it from ESS/VoiceStream.
+    asyncApiBindingAvailable: true
+    references:
+      - https://community.five9.com/s/article/API-How-to-Use-Websocket-to-Consume-Realtime-Events-for-Five9-Agent
+strengths:
+  - First-party webhook delivery service (ESS) with documented retry semantics and configurable HTTP headers
+  - Two complementary event surfaces - ESS for interaction lifecycle and VoiceStream for CTI call events plus audio
+  - Per-domain isolation and admin-console-driven configuration suitable for enterprise change control
+  - Alpha REST API signals movement toward API-managed webhook subscriptions
+  - Schema bundle published as a dedicated documentation product (documentation.five9.com/bundle/events-schema)
+gaps:
+  - No downloadable OpenAPI or AsyncAPI artifacts for the ESS or VoiceStream webhook surfaces on the public site
+  - Events Subscription REST API remains in alpha and is not yet promoted on documentation.five9.com
+  - Public docs do not enumerate the full event taxonomy in machine-readable form; only categorical examples are visible without authentication
+  - ESS explicitly excludes real-time agent state changes, queue statistics, and campaign-level events
+  - VoiceStream caps at ten subscriptions per domain, which is restrictive for multi-consumer architectures
+  - Authentication for subscriber endpoints is left to custom headers rather than a Five9-standardized signing scheme (e.g. HMAC)
+decisions:
+  - action: Do not author an AsyncAPI specification at this time
+    rationale: >-
+      A faithful AsyncAPI document for ESS would require event names
+      and payload schemas. The Five9 events schema bundle is JS-rendered
+      and not directly readable without authenticated portal access,
+      and reproducing payloads from secondary sources would risk
+      fabricating field-level detail. Capture the surface in review.yml
+      and defer modeling until the alpha API or schema bundle is
+      machine-readable.
+  - action: Do not author an OpenAPI specification for the alpha Events Subscription API
+    rationale: >-
+      The developer.alpha.us.five9.net portal is JS-rendered and the
+      route documentation is not retrievable as JSON/YAML from the
+      public surface. Wait for GA promotion (likely under
+      developer.us.five9.net or documentation.five9.com) before
+      committing an OpenAPI artifact to the index.
+  - action: Update apis.yml metadata only (bump modified date) without adding new api entries
+    rationale: >-
+      No new specification artifact is produced in this pass. The
+      review.yml captures the webhook surface assessment; the existing
+      apis.yml continues to accurately list the GA REST and SOAP
+      surfaces. A future pass should add a discrete entry for the
+      Events Subscription Service once a machine-readable contract is
+      available.
+notes: >-
+  Revisit when Five9 (a) promotes the Events Subscription API out of
+  alpha to a stable developer portal with a downloadable OpenAPI, or
+  (b) publishes the events schema bundle as a fetchable AsyncAPI /
+  JSON Schema artifact. At that point an AsyncAPI describing the ESS
+  webhook channels plus an OpenAPI describing
+  /v1/domains/{domainId}/events/subscriptions can be added under apis
+  in apis.yml.
