@@ -63,6 +63,10 @@ apis:
         url: https://documentation.five9.com/bundle/technical-reqs/page/technical-reqs/agent-integrations/cloud-API-web-services.htm
 
 common:
+  - type: VulnerabilityDisclosure
+    url: security/five9-vulnerability-disclosure.yml
+  - type: DomainSecurity
+    url: security/five9-domain-security.yml
   - type: LinkedIn
     url: https://www.linkedin.com/company/five9
   - type: Website
