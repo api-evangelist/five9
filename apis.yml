@@ -33,7 +33,7 @@ url: >-
   https://raw.githubusercontent.com/api-evangelist/five9/refs/heads/main/apis.yml
 created: '2026-05-11'
 modified: '2026-05-30'
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 apis:
   - aid: five9:agent-supervisor-rest-api
     name: Five9 Agent and Supervisor REST API
