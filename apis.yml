@@ -43,7 +43,7 @@ tags:
 url: >-
   https://raw.githubusercontent.com/api-evangelist/five9/refs/heads/main/apis.yml
 created: '2026-05-11'
-modified: '2026-05-30'
+modified: '2026-10-06'
 specificationVersion: '0.23'
 apis:
   - aid: five9:agent-supervisor-rest-api
@@ -85,6 +85,8 @@ apis:
         url: https://documentation.five9.com/bundle/technical-reqs/page/technical-reqs/agent-integrations/cloud-API-web-services.htm
 
 common:
+  - url: https://www.five9.com/rss.xml
+    type: BlogRSS
   - type: VulnerabilityDisclosure
     url: security/five9-vulnerability-disclosure.yml
   - type: DomainSecurity
