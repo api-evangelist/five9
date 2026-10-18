@@ -6,6 +6,7 @@ checked:
 - https://github.com/meltano/hub
 - https://zapier.com/api/v4/apps/
 - okta/integrations/okta-integration-edges.yml
+- zoom/integrations/zoom-integration-edges.yml
 source:
 - okta/integrations/okta-integration-edges.yml
 edges:
@@ -115,3 +116,20 @@ edges:
     builder: 'community (Meltano Hub variant maintainers: pathlight)'
   detected_by: sweep-data-integration.py
   first_seen: '2026-10-18'
+- partner_name: Zoom (own)
+  partner: zoom
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://marketplace.zoom.us/apps/8pmPXBvjSyeB_HjL0NNJVg
+  mirror_of: zoom/integrations/zoom-integration-edges.yml
+  apps:
+  - Five9
+  listing_count: 1
+  detected: '2026-10-18'
+  detected_by: mirror-platform-listings.py
+  category: Zoom app
