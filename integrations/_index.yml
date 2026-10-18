@@ -65,7 +65,7 @@
     - connectors/applications/five9
     vendor_link: https://www.five9.com/
     builder: Fivetran
-  status: pending-partner-spec
+  status: not-a-workflow
   arazzo: null
 - slug: five9-meltano
   label: Meltano
@@ -94,7 +94,7 @@
     quality:
     - silver
     builder: 'community (Meltano Hub variant maintainers: pathlight)'
-  status: pending-partner-spec
+  status: not-a-workflow
   arazzo: null
 - slug: five9-zoom-own
   label: Zoom (own)
