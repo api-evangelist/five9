@@ -6,6 +6,7 @@ checked:
 - https://github.com/meltano/hub
 - https://zapier.com/api/v4/apps/
 - okta/integrations/okta-integration-edges.yml
+- zendesk/integrations/zendesk-integration-edges.yml
 - zoom/integrations/zoom-integration-edges.yml
 source:
 - okta/integrations/okta-integration-edges.yml
@@ -133,3 +134,20 @@ edges:
   detected: '2026-10-18'
   detected_by: mirror-platform-listings.py
   category: Zoom app
+- partner_name: Zendesk (own)
+  partner: zendesk
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://www.zendesk.com/marketplace/apps/support/91303/five9-cloud-contact-center-for-support/
+  mirror_of: zendesk/integrations/zendesk-integration-edges.yml
+  apps:
+  - Five9 Cloud Contact Center for Support
+  listing_count: 1
+  detected: '2026-10-19'
+  detected_by: mirror-platform-listings.py
+  category: Contact Center
